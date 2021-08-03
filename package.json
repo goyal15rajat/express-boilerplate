@@ -1,0 +1,27 @@
+{
+  "name": "express-boilerplate",
+  "version": "1.0.0",
+  "description": "Express Project Boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.innovaccer.com/innote/express-boilerplate.git"
+  },
+  "author": "Rupesh Mangal",
+  "license": "ISC",
+  "dependencies": {
+    "async_hooks": "^1.0.0",
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "form-data": "^4.0.0",
+    "mongoose": "^5.13.5",
+    "nodemon": "^2.0.12",
+    "path": "^0.12.7",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
+  }
+}
