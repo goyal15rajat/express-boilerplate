@@ -1,4 +1,4 @@
-const { OK } = require('../utils/httpResponse')
+const { OK } = require('../../utils/httpResponse')
 
 async function version(req, res, next) {
 

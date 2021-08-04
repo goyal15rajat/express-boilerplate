@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const log = require('../../utils/logger')
-const MONGO_HOSTNAME = process.env.MONGO_HOSTNAME
+
+const MONGO_HOSTNAME = process.env.MONGO_HOST
 const MONGO_PORT = process.env.MONGO_PORT
 const MONGO_DB = process.env.MONGO_DB
 mongoose.connect(`mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`,
