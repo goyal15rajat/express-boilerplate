@@ -3,6 +3,7 @@ const os = require('os')
 const cpuCount = os.cpus().length
 
 const app = require('./app')
+const SETTINGS = require('./core/settings/common')
 
 // Cluster Management
 if (cluster.isMaster) {
@@ -15,7 +16,7 @@ if (cluster.isMaster) {
     })
 }
 else {
-    const port = process.env.PORT || 8000;
+    const port = SETTINGS.PORT;
     app.listen(port, () => {
         console.log(`Listening on PORT ${port}`)
     })
