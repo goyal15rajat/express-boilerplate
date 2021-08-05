@@ -1,18 +1,21 @@
 const path = require('path');
 var ENV_SETTINGS = {}
 
-if((process.env.ENV || '').toUpperCase() === 'PROD'){
+if((process.env.ENV || 'PROD').toUpperCase() === 'PROD'){
     ENV_SETTINGS = require('./production');
 }
-else if((process.env.ENV || '').toUpperCase() === 'TEST'){
+else if((process.env.ENV || 'PROD').toUpperCase() === 'TEST'){
     ENV_SETTINGS = require('./testing');
 }
 else{
     ENV_SETTINGS = require('./development');
 }
-    
+
 const COMMON_SETTINGS = {
     ROOT: path.resolve(__dirname, '..'),
+    ENV: (process.env.ENV || 'PROD').toUpperCase(),
+    CUSTOMER_CODE: (process.env.CUSTOMER_CODE || '').toUpperCase(),
+    ENV_CODE: process.env.ENV_CODE,
 };
 
 
