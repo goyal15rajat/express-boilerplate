@@ -3,7 +3,7 @@ const errorHandler = (err, req, res, next) => {
 	if (res.headersSent)
 		return next(err)
 
-	const log = require('../utils/logger')
+	const log = require('../../utils/logger')
 	log.logApp({
 		level: 'error',
 		message: 'ERROR',
