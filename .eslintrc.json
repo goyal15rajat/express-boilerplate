@@ -18,5 +18,11 @@
         "react"
     ],
     "rules": {
+        "semi": ["warn", "always"],
+        "quotes": ["warn", "double"],
+        "no-eval": ["error", {"allowIndirect": true}],
+        "code": 120,
+        "tabWidth": 4,
+        "object-curly-spacing": ["warn", "always"]
     }
 }

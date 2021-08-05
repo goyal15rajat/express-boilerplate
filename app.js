@@ -1,24 +1,20 @@
 require('dotenv').config()
+require('./core/connections/mongoose')
+const logging_middleware = require('./core/middlewares/logging')
+const log = require('./utils/logger')
+const { NotFound } = require('./utils/httpError')
+const routes = require('./core/router')
+
+
 
 const express = require('express')
 const app = express()
 
-// Connections
-require('./core/connections/mongoose')
-
 // Middlewares
 app.use(express.json())
-
-const logging_middleware = require('./core/middlewares/logging')
+app.use(express.urlencoded({extended:false}))
 app.use(logging_middleware.addRequestResponseLogger)
 
-// Log
-const log = require('./utils/logger')
-
-// HTTP Errors
-const { NotFound } = require('./utils/httpError')
-
-const routes = require('./core/router')
 app.use('/boilerplate', routes)
 
 app.all('*', (req, res, next) => {
