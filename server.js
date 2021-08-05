@@ -6,7 +6,7 @@ const app = require('./app')
 const SETTINGS = require('./core/settings/common')
 
 // Cluster Management
-if (cluster.isMaster && process.env.CLUSTER.toUpperCase()==="TRUE") {
+if (cluster.isMaster && (process.env.CLUSTER || 'FALSE').toUpperCase()==="TRUE") {
     for (let i = 0; i < cpuCount; i++)
         cluster.fork()
 
