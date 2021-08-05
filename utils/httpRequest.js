@@ -6,6 +6,8 @@ const log = require('./logger')
 
 const { InternalServerError, GatewayTimeout } = require('./httpError')
 
+const SETTINGS = require('../settings/common')
+
 async function makeRequest({
     url, method, params, headers, data, timeout = 20, files, requestId
 }) {
@@ -73,7 +75,7 @@ async function makeRequest({
                 logType: 'APP',
                 responseCode: res.status,
                 responseTime: resTimestamp - reqTimestamp,
-                responseContent: Math.floor(res.status / 100) !== 2 || process.env.NODE_ENV === "development" ? res.data : {},
+                responseContent: Math.floor(res.status / 100) !== 2 || SETTINGS.ENV === "DEVELOPMENT" ? res.data : {},
                 requestId,
             }
         })
