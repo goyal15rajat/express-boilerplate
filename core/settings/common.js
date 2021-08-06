@@ -16,6 +16,7 @@ const COMMON_SETTINGS = {
     ENV: (process.env.ENV || 'PROD').toUpperCase(),
     CUSTOMER_CODE: (process.env.CUSTOMER_CODE || '').toUpperCase(),
     ENV_CODE: process.env.ENV_CODE,
+    SERVICE_NAME: (process.env.SERVICE_NAME || "boilerplate").toUpperCase()
 };
 
 

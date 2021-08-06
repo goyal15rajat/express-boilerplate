@@ -1,10 +1,11 @@
 require('dotenv').config()
 require('./core/connections/mongoose')
 const logging_middleware = require('./core/middlewares/logging')
+const request_id_middleware = require('./core/middlewares/requestId')
 const log = require('./utils/logger')
 const { NotFound } = require('./utils/httpError')
 const routes = require('./core/router')
-
+const error_handling_middleware = require('./core/middlewares/error_handling')
 
 
 const express = require('express')
@@ -13,6 +14,7 @@ const app = express()
 // Middlewares
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
+app.use(request_id_middleware.requestIdMiddleware)
 app.use(logging_middleware.addRequestResponseLogger)
 
 app.use('/boilerplate', routes)
@@ -22,7 +24,6 @@ app.all('*', (req, res, next) => {
 })
 
 // Error Handler Middlware
-const error_handling_middleware = require('./core/middlewares/error_handling')
 app.use(error_handling_middleware.errorHandler)
 
 process.on('uncaughtException', (err) => {
@@ -31,7 +32,7 @@ process.on('uncaughtException', (err) => {
 		message: 'UNCAUGHT_EXCEPTION_ERROR',
 		errors: err
 	})
-	process.exit(1)
+	console.log(res)
 })
 
 process.on('unhandledRejection', (err) => {
@@ -40,7 +41,6 @@ process.on('unhandledRejection', (err) => {
 		message: 'UNHANDLED_REJECTION_ERROR',
 		errors: err
 	})
-	process.exit(1)
 })	
 
 module.exports = app
