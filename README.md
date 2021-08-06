@@ -25,7 +25,7 @@ For production -
 node server.js
 ```
 
-## Usage
+## ENV
 ```bash
 PORT=8000 //default
 CLUSTER=FALSE //default
@@ -35,6 +35,22 @@ ENV_CODE=pd
 MONGO_HOST=127.0.0.1
 MONGO_PORT=27017
 MONGO_DBNAME=boilerplate
+```
+
+## Docker Deployment
+To run the application in production mode:
+```bash
+docker-compose up
+```
+
+To run the application in development mode:
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+```
+
+To run the application in test mode:
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up
 ```
 
 ## Dependencies

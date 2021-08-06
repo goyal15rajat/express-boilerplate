@@ -1,0 +1,25 @@
+version: "3"
+services:
+  node-boilerplate:
+    container_name: node-boilerplate
+    build:
+      context: .
+      args:
+      - ENV=${ENV:-prod}
+      dockerfile: dockerfile
+    entrypoint: /bin/ash -c "/app/start.sh prod"
+    environment:
+      - ENV=prod
+      - ENV_CODE=prod
+    depends_on:
+      - "mongodb"
+    ports:
+      - 8000:8000
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    volumes:
+      - ./database/mongodb:/data/db
+    ports:
+      - 27017:27017
