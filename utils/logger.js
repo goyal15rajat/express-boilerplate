@@ -10,14 +10,14 @@
     see middlwares.setContext for more information
 */
 const winston = require('winston')
-
 const path = require('path')
-
-let state = require('../utils/TLS')
+const {v4 : uuidv4} = require('uuid')
+const request_id_middleware = require('../core/middlewares/requestId')
+const SETTINGS = require('../core/settings/common')
 
 const logVersion = 1
 
-const createLogger = (params) => {
+const createLogger = (params, extra) => {
     let log = winston.createLogger(params);
     log.logRequest = (req, extra) => { logRequest(log, req, extra) }
     log.logResponse = (req, res, extra) => { logResponse(log, req, res, extra) }
@@ -90,14 +90,18 @@ const logRequest = (log, req, extra) => {
     // stackInfo[1] contains addUtils's info
     // stackInfo[2] contains the actual caller
 
+    if (request_id_middleware.asyncLocalStorage.getStore()) {
+
+    }
+
     data = {
         logVersion,
         level,
         logType: "REQUEST",
-        requestId: req.requestId,
+        requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN,
         processId: process.pid,
         processName: process.title,
-        message,
+        message: "REQUEST",
         module: stackInfo[2]['functionName'],
         name: stackInfo[0]['functionName'],
         timestamp: new Date(),
@@ -108,10 +112,7 @@ const logRequest = (log, req, extra) => {
         threadId: '',
         threadName: '',
         error: "",
-        service: "Boilerplate",
-        state: {
-            ...state.getStore()
-        },
+        service: SETTINGS.SERVICE_NAME,
         ...extra,
         userId: "Check response for user id",
         requestPath: req.baseUrl + req.path,
@@ -167,10 +168,10 @@ const logResponse = (log, req, res, extra) => {
         logVersion,
         level,
         logType: "RESPONSE",
-        requestId: req.requestId,
+        requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN,
         processId: process.pid,
         processName: process.title,
-        message,
+        message: "RESPONSE",
         module: stackInfo[2]['functionName'],
         name: stackInfo[0]['functionName'],
         timestamp: new Date(),
@@ -181,10 +182,7 @@ const logResponse = (log, req, res, extra) => {
         threadId: '',
         threadName: '',
         error: "",
-        service: "Boilerplate",
-        state: {
-            ...state.getStore()
-        },
+        service: SETTINGS.SERVICE_NAME,
         ...extra,
         userId: "User info not available",
         responseStatusCode: res.statusCode,
@@ -230,7 +228,7 @@ const logApp = (log, extra) => {
         logVersion,
         level,
         logType: "APP",
-        requestId: state.get('requestId'),
+        requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN,
         processId: process.pid,
         processName: process.title,
         message,
@@ -244,10 +242,7 @@ const logApp = (log, extra) => {
         threadId: '',
         threadName: '',
         error: "",
-        service: "Boilerplate",
-        state: {
-            ...state.getStore()
-        },
+        service: SETTINGS.SERVICE_NAME,
         ...extra,
     }
     log.log(data)
