@@ -1,0 +1,13 @@
+version: "3"
+services:
+  node-boilerplate:
+    build:
+      context: .
+      args:
+      - ENV=${ENV:-test}
+      dockerfile: dockerfile
+    entrypoint: /bin/ash -c "/app/start.sh test"
+    environment:
+      - ENV=test
+      - ENV_CODE=test
+  
