@@ -32,7 +32,6 @@ process.on('uncaughtException', (err) => {
 		message: 'UNCAUGHT_EXCEPTION_ERROR',
 		errors: err
 	})
-	console.log(res)
 })
 
 process.on('unhandledRejection', (err) => {

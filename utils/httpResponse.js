@@ -16,16 +16,17 @@ Supported Responses:
 */
 
 // const statusCodes = require('http').STATUS_CODES
-const state = require('./TLS')
+const request_id_middleware = require('../core/middlewares/requestId')
 
 function getMetaData() {
+
 	return {
-		requestId: state.get('requestId')
+		requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN
 	}
 }
 
-function createResponse(statusCode) {
-	return function (res, data = {}, json = true) {
+function createResponse(statusCode, json = true) {
+	return function (res, data = {}, json) {
 		/*
 			Sends a HTTP Response with a specified status code
 			Should be enclosed in a Try/Catch as res.send()/json() may throw errors if incorrect data is passed
@@ -56,5 +57,5 @@ function createResponse(statusCode) {
 module.exports = {
 	OK: createResponse(200),
 	Created: createResponse(201),
-	NoContent: createResponse(204),
+	NoContent: createResponse(204, json=false),
 }

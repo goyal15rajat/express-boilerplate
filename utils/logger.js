@@ -15,9 +15,6 @@ const {v4 : uuidv4} = require('uuid')
 const request_id_middleware = require('../core/middlewares/requestId')
 const SETTINGS = require('../core/settings/common')
 
-
-let state = require('../utils/TLS')
-
 const logVersion = 1
 
 const createLogger = (params, extra) => {
