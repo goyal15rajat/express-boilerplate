@@ -1,5 +1,8 @@
+process.env.NODE_ENV = 'production'
+
 const ENV_SETTINGS = {
     PORT: process.env.PORT || 8000,
+    NODE_ENV: process.env.NODE_ENV,
     DATABASES: {
         MONGO: {
             HOST: process.env.MONGO_HOST || '127.0.0.1',

@@ -1,6 +1,5 @@
-const { OK } = require('../../utils/httpResponse')
+const { OK } = require('../../utils/http-response')
 const asyncHandler = require('../../core/middlewares/async')
-const { BadRequest, NotFound, InternalServerError } = require('../../utils/httpError')
 
 const version = asyncHandler(
 	async (req, res, next) => {

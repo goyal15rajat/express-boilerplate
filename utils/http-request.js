@@ -1,10 +1,8 @@
 const axios = require('axios').default
 const { v4: uuid } = require('uuid')
 const FormData = require('form-data')
-
 const log = require('./logger')
-
-const { InternalServerError, GatewayTimeout } = require('./httpError')
+const { InternalServerError, GatewayTimeout } = require('./http-error')
 
 const SETTINGS = require('../settings/common')
 
@@ -93,7 +91,7 @@ async function makeRequest({
             throw new GatewayTimeout({})
         }
         else if (err.response && err.response.status) {
-            const httpError = require('./httpError')[err.response.status]
+            const httpError = require('./http-error')[err.response.status]
             log.logApp({
                 level: 'error',
                 message: 'API_ERROR',

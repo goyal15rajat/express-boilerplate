@@ -41,17 +41,26 @@ MONGO_DBNAME=boilerplate
 To run the application in production mode:
 ```bash
 docker-compose up
+docker-compose down
 ```
 
 To run the application in development mode:
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 ```
 
 To run the application in test mode:
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.test.yml up
+docker-compose -f docker-compose.yml -f docker-compose.test.yml down
 ```
+
+## Nomenclature rules
+- Folder names will be **lowerCamel**
+- File names will be **k-e-b-a-b**
+- Variables, Functions will be **lowerCame**
+- Class names will be **PascalCase**
 
 ## Dependencies
 - Mongo

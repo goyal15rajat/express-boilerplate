@@ -12,7 +12,7 @@
 const winston = require('winston')
 const path = require('path')
 const {v4 : uuidv4} = require('uuid')
-const request_id_middleware = require('../core/middlewares/requestId')
+const request_id_middleware = require('../core/middlewares/request-id')
 const SETTINGS = require('../core/settings/common')
 
 const logVersion = 1
@@ -241,9 +241,8 @@ const logApp = (log, extra) => {
         lineNumber: stackInfo[2]['lineNumber'],
         threadId: '',
         threadName: '',
-        error: "",
+        error: extra.error,
         service: SETTINGS.SERVICE_NAME,
-        ...extra,
     }
     log.log(data)
 }
@@ -251,8 +250,9 @@ const logApp = (log, extra) => {
 const logger = createLogger({
     format: winston.format.json(),
     transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: 'combined.log' }),
+        new winston.transports.Console({
+            level: 'info'
+        })
     ],
 })
 
