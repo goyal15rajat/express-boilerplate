@@ -1,10 +1,10 @@
 const path = require('path');
 var ENV_SETTINGS = {}
 
-if((process.env.ENV || 'PROD').toUpperCase() === 'PROD'){
+if(process.env.ENV && process.env.ENV.toUpperCase() === 'PROD'){
     ENV_SETTINGS = require('./production');
 }
-else if((process.env.ENV || 'PROD').toUpperCase() === 'TEST'){
+else if(process.env.ENV && process.env.ENV.toUpperCase() === 'TEST'){
     ENV_SETTINGS = require('./testing');
 }
 else{

@@ -21,11 +21,20 @@ Supported Errors:
 */
 
 const statusCodes = require('http').STATUS_CODES
-const state = require('./TLS')
+const request_id_middleware = require('../core/middlewares/request-id')
+
 
 const defaultMessage = {
 	BadRequest: 'The request is invalid. Please try again.',
 	GatewayTimeout: 'Cant connect to server at this moment.\nIf the issue persists please contact support.',
+	Unauthorized: 'Sent request is unauthorized. Please log in first.',
+	Forbidden: 'You don\'t have necessary permissions to access this resource.',
+	NotFound: 'The resource you are looking for does not exist.',
+	MethodNotAllowed: 'This method is not allowed for the sent request.',
+	Unprocessable: 'Unprocessable Entity! Please try again later.',
+	InternalServerError: 'Looks like something went wrong! Please try again.\nIf the issue persists please contact support.',
+	ServiceUnavailable: 'Service is currently unavailable. Please contact support if issue persists.'
+
 }
 
 function createError(statusCode, name) {
@@ -37,28 +46,24 @@ function createError(statusCode, name) {
 				errors: errors object (optional) revealing more details to be sent in response
 				response: response body to be sent
 		*/
-		constructor({
+		constructor(
 			message,
-			errorCode,
-			errors = {},
+			errors ,
 			title,
-			errorSubCode,
-			requestId
-		}) {
+			errorSubCode
+		) {
 			super()
-			this.name = name
 			this.response = {
 				statusCode,
 				error: {
-					message: message || defaultMessage[name] || '',
-					code: errorCode,
+					message: message || defaultMessage[name] || name,
 					errors,
 					title,
 					subCode: errorSubCode,
 
 				},
 				metadata: {
-					requestId: requestId || state.get('requestId')
+					requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN
 				}
 			}
 
@@ -74,7 +79,6 @@ Object.entries(statusCodes)
 		name = name.replace(/[^a-zA-Z]/g, '')
 		code = Number(code)
 		module.exports[name] = createError(code, name)
-		module.exports[code] = createError(code, String(code))
 	})
 
 /*

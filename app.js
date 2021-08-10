@@ -1,11 +1,11 @@
 require('dotenv').config()
 require('./core/connections/mongoose')
 const logging_middleware = require('./core/middlewares/logging')
-const request_id_middleware = require('./core/middlewares/requestId')
+const request_id_middleware = require('./core/middlewares/request-id')
 const log = require('./utils/logger')
-const { NotFound } = require('./utils/httpError')
+const { NotFound } = require('./utils/http-error')
 const routes = require('./core/router')
-const error_handling_middleware = require('./core/middlewares/error_handling')
+const error_handling_middleware = require('./core/middlewares/error-handling')
 
 
 const express = require('express')

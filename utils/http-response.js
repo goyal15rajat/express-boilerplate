@@ -4,7 +4,7 @@ HTTP Responses
 Requires TLS state
 
 Usage:
-	const { OK, NoContent } = require('path/to/httpResponse.js')
+	const { OK, NoContent } = require('path/to/http-response.js')
 	OK(res) // Sends a 200 response with empty response body with res.send()
 	OK(res, data) // Sends a 200 response with data as the response body with res.send()
 	OK(res, data, true) // Sends a 200 response with data as the response body with res.json()
@@ -16,7 +16,7 @@ Supported Responses:
 */
 
 // const statusCodes = require('http').STATUS_CODES
-const request_id_middleware = require('../core/middlewares/requestId')
+const request_id_middleware = require('../core/middlewares/request-id')
 
 function getMetaData() {
 
@@ -52,7 +52,7 @@ function createResponse(statusCode, json = true) {
 }
 
 /*
-	Refer to httpError.js for building Responses automatically
+	Refer to http-error.js for building Responses automatically
 */
 module.exports = {
 	OK: createResponse(200),
