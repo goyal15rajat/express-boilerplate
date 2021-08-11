@@ -6,8 +6,8 @@ services:
       context: .
       args:
       - ENV=${ENV:-dev}
-      dockerfile: dockerfile
-    entrypoint: /bin/ash -c "/app/start.sh dev"
+      dockerfile: Dockerfile
+    entrypoint: /bin/ash -c "./start.sh dev"
     environment:
       - ENV=dev
       - ENV_CODE=dev

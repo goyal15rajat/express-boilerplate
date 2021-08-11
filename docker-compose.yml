@@ -6,13 +6,16 @@ services:
       context: .
       args:
       - ENV=${ENV:-prod}
-      dockerfile: dockerfile
-    entrypoint: /bin/ash -c "/app/start.sh prod"
+      dockerfile: Dockerfile
+    entrypoint: /bin/ash -c "./start.sh prod"
     environment:
       - ENV=prod
       - ENV_CODE=prod
+      - MONGO_HOST=mongodb
     depends_on:
       - "mongodb"
+    links:
+      - mongodb
     ports:
       - 8000:8000
 
@@ -21,5 +24,4 @@ services:
     container_name: mongodb
     volumes:
       - ./database/mongodb:/data/db
-    ports:
-      - 27017:27017
+    command: mongod --quiet --logpath /dev/null 
