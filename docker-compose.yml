@@ -1,7 +1,8 @@
 version: "3"
 services:
-  node-boilerplate:
-    container_name: node-boilerplate
+  innote:
+    container_name: express-boilerplate
+    image: '${CI_REGISTRY_ACCOUNT}/${CI_REGISTRY_IMAGE}:${TAG}'
     build:
       context: .
       args:
@@ -12,16 +13,5 @@ services:
       - ENV=prod
       - ENV_CODE=prod
       - MONGO_HOST=mongodb
-    depends_on:
-      - "mongodb"
-    links:
-      - mongodb
     ports:
-      - 8000:8000
-
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    volumes:
-      - ./database/mongodb:/data/db
-    command: mongod --quiet --logpath /dev/null 
+      - 21600:8000
