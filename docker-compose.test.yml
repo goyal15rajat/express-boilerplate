@@ -1,7 +1,7 @@
 version: "3"
 services:
-  node-boilerplate:
-    container_name: node-boilerplate
+  express-boilerplate:
+    container_name: express-boilerplate
     build:
       context: .
       args:
@@ -22,7 +22,7 @@ services:
   mongodb:
     image: mongo
     container_name: mongodb
-    volumes:
-      - ./database/mongodb:/data/db
+    logging:
+      driver: "none"
     command: mongod --quiet --logpath /dev/null 
 
