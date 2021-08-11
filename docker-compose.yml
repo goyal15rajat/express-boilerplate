@@ -7,7 +7,7 @@ services:
       args:
       - ENV=${ENV:-prod}
       dockerfile: Dockerfile
-    entrypoint: /bin/ash -c "/app/start.sh prod"
+    entrypoint: /bin/ash -c "./start.sh prod"
     environment:
       - ENV=prod
       - ENV_CODE=prod
@@ -24,4 +24,4 @@ services:
     container_name: mongodb
     volumes:
       - ./database/mongodb:/data/db
-
+    command: mongod --quiet --logpath /dev/null 

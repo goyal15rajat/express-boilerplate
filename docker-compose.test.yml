@@ -1,6 +1,7 @@
 version: "3"
 services:
   node-boilerplate:
+    container_name: node-boilerplate
     build:
       context: .
       args:
@@ -10,4 +11,18 @@ services:
     environment:
       - ENV=test
       - ENV_CODE=test
-  
+      - MONGO_HOST=mongodb
+    depends_on:
+      - "mongodb"
+    links:
+      - mongodb
+    ports:
+      - 8000:8000
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    volumes:
+      - ./database/mongodb:/data/db
+    command: mongod --quiet --logpath /dev/null 
+

@@ -7,10 +7,17 @@ const { NotFound } = require('./utils/http-error')
 const routes = require('./core/router')
 const error_handling_middleware = require('./core/middlewares/error-handling')
 const express = require('express')
+const cors = require('cors')
+
 
 const app = express()
 
 // Middlewares
+app.use(cors({
+	origin: '*',
+	methods: ['GET','POST','DELETE','PUT','PATCH'],
+	allowedHeaders: []
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(request_id_middleware.requestIdMiddleware)

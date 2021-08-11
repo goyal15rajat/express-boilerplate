@@ -12,4 +12,4 @@ FROM mhart/alpine-node:16
 WORKDIR /app
 COPY --from=base /app /app
 COPY . .
-RUN chmod +x /app/start.sh
+RUN chmod +x ./start.sh
