@@ -6,9 +6,8 @@ const log = require('./utils/logger')
 const { NotFound } = require('./utils/http-error')
 const routes = require('./core/router')
 const error_handling_middleware = require('./core/middlewares/error-handling')
-
-
 const express = require('express')
+
 const app = express()
 
 // Middlewares
