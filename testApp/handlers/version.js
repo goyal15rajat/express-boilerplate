@@ -1,4 +1,4 @@
-const { OK } = require('../../utils/http-response')
+const { OK } = require('../../core/utils/http-response')
 const asyncHandler = require('../../core/middlewares/async')
 
 const version = asyncHandler(

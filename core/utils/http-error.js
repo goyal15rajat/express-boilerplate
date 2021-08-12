@@ -1,8 +1,6 @@
 /*
 HTTP Errors
 
-Requires TLS state
-
 Usage:
 	const { BadRequest, NotFound, InternalServerError } = require('path/to/httpError.js')
 	throw new BadRequest({
@@ -21,7 +19,7 @@ Supported Errors:
 */
 
 const statusCodes = require('http').STATUS_CODES
-const request_id_middleware = require('../core/middlewares/request-id')
+const request_id_middleware = require('../middlewares/request-id')
 
 
 const defaultMessage = {
@@ -46,12 +44,12 @@ function createError(statusCode, name) {
 				errors: errors object (optional) revealing more details to be sent in response
 				response: response body to be sent
 		*/
-		constructor(
+		constructor({
 			message,
 			errors ,
 			title,
 			errorSubCode
-		) {
+		}) {
 			super()
 			this.response = {
 				statusCode,

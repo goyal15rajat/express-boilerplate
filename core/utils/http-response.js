@@ -1,8 +1,6 @@
 /*
 HTTP Responses
 
-Requires TLS state
-
 Usage:
 	const { OK, NoContent } = require('path/to/http-response.js')
 	OK(res) // Sends a 200 response with empty response body with res.send()
@@ -16,7 +14,7 @@ Supported Responses:
 */
 
 // const statusCodes = require('http').STATUS_CODES
-const request_id_middleware = require('../core/middlewares/request-id')
+const request_id_middleware = require('../middlewares/request-id')
 
 function getMetaData() {
 

@@ -12,8 +12,8 @@
 const winston = require('winston')
 const path = require('path')
 const {v4 : uuidv4} = require('uuid')
-const request_id_middleware = require('../core/middlewares/request-id')
-const SETTINGS = require('../core/settings/common')
+const request_id_middleware = require('../middlewares/request-id')
+const SETTINGS = require('../settings/common')
 
 const logVersion = 1
 

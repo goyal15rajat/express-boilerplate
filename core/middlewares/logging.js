@@ -1,5 +1,5 @@
 const addRequestResponseLogger = (req, res, next) => {
-	const log = require('../../utils/logger')
+	const log = require('../utils/logger')
 	log.logRequest(req)
 	res.on('finish', () => {
 		let responseContent =  '{}'

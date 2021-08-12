@@ -1,6 +1,6 @@
-const log = require('../../utils/logger')
+const log = require('../utils/logger')
 const request_id_middleware = require('./request-id')
-const { InternalServerError } = require('../../utils/http-error')
+const { InternalServerError } = require('../utils/http-error')
 
 const errorHandler = (err, req, res, next) => {
 

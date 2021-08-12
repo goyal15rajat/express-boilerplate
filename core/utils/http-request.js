@@ -1,16 +1,15 @@
 const axios = require('axios').default
 const { v4: uuid } = require('uuid')
 const FormData = require('form-data')
-const log = require('./logger')
+const log = require('../utils/logger')
 const { InternalServerError, GatewayTimeout } = require('./http-error')
 
 const SETTINGS = require('../settings/common')
 
 async function makeRequest({
-    url, method, params, headers, data, timeout = 20, files, requestId
-}) {
+    url, method, params, headers, data, timeout = 20, files, requestId}) {
     /*
-        Make external request to a URL using axios
+        Make single external request to a URL using axios
         Args:
             url: URL of the request.
             method: method of the request.
@@ -77,9 +76,8 @@ async function makeRequest({
                 requestId,
             }
         })
-
         resData = res.data
-        resCode = res.status
+        resCode = res.status ? Number(res.status) : res.status
     }
     catch (err) {
         if (err.code === 'ECONNABORTED') {
@@ -88,7 +86,7 @@ async function makeRequest({
                 message: 'API_TIMEOUT_ERROR',
                 error: err
             })
-            throw new GatewayTimeout({})
+            throw new GatewayTimeout()
         }
         else if (err.response && err.response.status) {
             const httpError = require('./http-error')[err.response.status]
@@ -97,7 +95,7 @@ async function makeRequest({
                 message: 'API_ERROR',
                 error: err
             })
-            throw new httpError({})
+            throw new httpError()
         }
         else {
             log.logApp({
@@ -105,7 +103,7 @@ async function makeRequest({
                 message: 'API_ERROR',
                 error: err
             })
-            throw new InternalServerError({})
+            throw new InternalServerError({errors: err})
         }
     }
 
