@@ -40,20 +40,23 @@ MONGO_DBNAME=boilerplate
 ## Docker Deployment
 To run the application in production mode:
 ```bash
+docker-compose build
 docker-compose up
 docker-compose down
 ```
 
 To run the application in development mode:
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker-compose -f docker-compose.dev.yml build
+docker-compose -f docker-compose.dev.yml up
+docker-compose -f docker-compose.dev.yml down
 ```
 
 To run the application in test mode:
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.test.yml up
-docker-compose -f docker-compose.yml -f docker-compose.test.yml down
+docker-compose-f docker-compose.test.yml build
+docker-compose-f docker-compose.test.yml up
+docker-compose-f docker-compose.test.yml down
 ```
 
 ## Nomenclature rules
