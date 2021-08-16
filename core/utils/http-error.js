@@ -18,22 +18,23 @@ Supported Errors:
 	All Status Codes except 2xx, by number as well as by name
 */
 
-const statusCodes = require('http').STATUS_CODES
-const request_id_middleware = require('../middlewares/request-id')
+const statusCodes = require("http").STATUS_CODES;
+const request_id_middleware = require("../middlewares/request-id");
 
 
 const defaultMessage = {
-	BadRequest: 'The request is invalid. Please try again.',
-	GatewayTimeout: 'Cant connect to server at this moment.\nIf the issue persists please contact support.',
-	Unauthorized: 'Sent request is unauthorized. Please log in first.',
-	Forbidden: 'You don\'t have necessary permissions to access this resource.',
-	NotFound: 'The resource you are looking for does not exist.',
-	MethodNotAllowed: 'This method is not allowed for the sent request.',
-	Unprocessable: 'Unprocessable Entity! Please try again later.',
-	InternalServerError: 'Looks like something went wrong! Please try again.\nIf the issue persists please contact support.',
-	ServiceUnavailable: 'Service is currently unavailable. Please contact support if issue persists.'
+	BadRequest: "The request is invalid. Please try again.",
+	GatewayTimeout: "Cant connect to server at this moment.\nIf the issue persists please contact support.",
+	Unauthorized: "Sent request is unauthorized. Please log in first.",
+	Forbidden: "You don't have necessary permissions to access this resource.",
+	NotFound: "The resource you are looking for does not exist.",
+	MethodNotAllowed: "This method is not allowed for the sent request.",
+	Unprocessable: "Unprocessable Entity! Please try again later.",
+	InternalServerError: "Looks like something went wrong! Please try again. \
+	\nIf the issue persists please contact support.",
+	ServiceUnavailable: "Service is currently unavailable. Please contact support if issue persists."
 
-}
+};
 
 function createError(statusCode, name) {
 	return class extends Error {
@@ -50,7 +51,7 @@ function createError(statusCode, name) {
 			title,
 			errorSubCode
 		}) {
-			super()
+			super();
 			this.response = {
 				statusCode,
 				error: {
@@ -61,23 +62,25 @@ function createError(statusCode, name) {
 
 				},
 				metadata: {
-					requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN
+					requestId: request_id_middleware.asyncLocalStorage &&
+					request_id_middleware.asyncLocalStorage.getStore() ?
+					request_id_middleware.asyncLocalStorage.getStore().get("requestId") : NaN
 				}
-			}
+			};
 
-			this.errors = errors
+			this.errors = errors;
 		}
-	}
+	};
 }
 
 Object.entries(statusCodes)
 	.filter(statusCode => statusCode[0] < 200 || statusCode[0] >= 300)
 	.forEach(([code, name]) => {
-		name = name.split(' ').join('')
-		name = name.replace(/[^a-zA-Z]/g, '')
-		code = Number(code)
-		module.exports[name] = createError(code, name)
-	})
+		name = name.split(" ").join("");
+		name = name.replace(/[^a-zA-Z]/g, "");
+		code = Number(code);
+		module.exports[name] = createError(code, name);
+	});
 
 /*
 100 Continue

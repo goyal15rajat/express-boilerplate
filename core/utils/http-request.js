@@ -1,13 +1,13 @@
-const axios = require('axios').default
-const { v4: uuid } = require('uuid')
-const FormData = require('form-data')
-const log = require('../utils/logger')
-const { InternalServerError, GatewayTimeout } = require('./http-error')
+const axios = require("axios").default;
+const { v4: uuid } = require("uuid");
+const FormData = require("form-data");
+const log = require("../utils/logger");
+const { InternalServerError, GatewayTimeout } = require("./http-error");
 
-const SETTINGS = require('../settings/common')
+const SETTINGS = require("../settings/common");
 
 async function makeRequest({
-    url, method, params, headers, data, timeout = 20, files, requestId}) {
+    url, method, params, headers, data, timeout = 20, files, requestId }) {
     /*
         Make single external request to a URL using axios
         Args:
@@ -27,17 +27,17 @@ async function makeRequest({
     if (files instanceof FormData) {
         // Make everything part of FormData
         for (let [key, value] of Object.entries(data)) {
-            files.append(key, value)
+            files.append(key, value);
         }
-        data = files
+        data = files;
         headers = {
             ...headers,
             ...data.getHeaders()
-        }
+        };
     }
 
     let res, resData, resCode, error;
-    requestId = requestId || uuid()
+    requestId = requestId || uuid();
 
     const options = {
         url,
@@ -46,70 +46,70 @@ async function makeRequest({
         headers,
         data,
         timeout: timeout * 1000,
-    }
+    };
 
     log.logApp({
-        level: 'info',
-        message: 'API_REQUEST',
+        level: "info",
+        message: "API_REQUEST",
         meta: {
-            logType: 'APP',
+            logType: "APP",
             requestPath: url,
             requestMethod: method,
             requestDict: options,
             requestId,
         }
-    })
+    });
 
     try {
-        const reqTimestamp = +new Date()
-        res = await axios(options)
-        const resTimestamp = +new Date()
+        const reqTimestamp = +new Date();
+        res = await axios(options);
+        const resTimestamp = +new Date();
 
         log.logApp({
-            level: 'info',
-            message: 'API_RESPONSE',
+            level: "info",
+            message: "API_RESPONSE",
             meta: {
-                logType: 'APP',
+                logType: "APP",
                 responseCode: res.status,
                 responseTime: resTimestamp - reqTimestamp,
                 responseContent: Math.floor(res.status / 100) !== 2 || SETTINGS.ENV === "DEVELOPMENT" ? res.data : {},
                 requestId,
             }
-        })
-        resData = res.data
-        resCode = res.status ? Number(res.status) : res.status
+        });
+        resData = res.data;
+        resCode = res.status ? Number(res.status) : res.status;
     }
     catch (err) {
-        if (err.code === 'ECONNABORTED') {
+        if (err.code === "ECONNABORTED") {
             log.logApp({
-                level: 'error',
-                message: 'API_TIMEOUT_ERROR',
+                level: "error",
+                message: "API_TIMEOUT_ERROR",
                 error: err
-            })
-            throw new GatewayTimeout()
+            });
+            throw new GatewayTimeout();
         }
         else if (err.response && err.response.status) {
-            const httpError = require('./http-error')[err.response.status]
+            const httpError = require("./http-error")[err.response.status];
             log.logApp({
-                level: 'error',
-                message: 'API_ERROR',
+                level: "error",
+                message: "API_ERROR",
                 error: err
-            })
-            throw new httpError()
+            });
+            throw new httpError();
         }
         else {
             log.logApp({
-                level: 'error',
-                message: 'API_ERROR',
+                level: "error",
+                message: "API_ERROR",
                 error: err
-            })
-            throw new InternalServerError({errors: err})
+            });
+            throw new InternalServerError({ errors: err });
         }
     }
 
-    return { res, resData, resCode, error }
+    return { res, resData, resCode, error };
 }
 
 module.exports = {
     makeRequest,
-}
+};

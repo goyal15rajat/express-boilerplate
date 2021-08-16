@@ -1,10 +1,10 @@
-const express = require('express')
-const app = express.Router()
+const express = require("express");
+const app = express.Router();
 
 // Request Handlers
-const { version } = require('./handlers/version')
+const { version } = require("./handlers/version");
 
 // Routes
-app.get('/_version', version)
+app.get("/_version", version);
 
-module.exports = app
+module.exports = app;
