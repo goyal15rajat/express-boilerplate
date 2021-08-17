@@ -1,8 +1,6 @@
 /*
 HTTP Responses
 
-Requires TLS state
-
 Usage:
 	const { OK, NoContent } = require('path/to/http-response.js')
 	OK(res) // Sends a 200 response with empty response body with res.send()
@@ -16,17 +14,19 @@ Supported Responses:
 */
 
 // const statusCodes = require('http').STATUS_CODES
-const request_id_middleware = require('../core/middlewares/request-id')
+const request_id_middleware = require("../middlewares/request-id");
 
 function getMetaData() {
 
 	return {
-		requestId: request_id_middleware.asyncLocalStorage && request_id_middleware.asyncLocalStorage.getStore() ? request_id_middleware.asyncLocalStorage.getStore().get('requestId') : NaN
-	}
+		requestId: request_id_middleware.asyncLocalStorage &&
+		request_id_middleware.asyncLocalStorage.getStore() ?
+		request_id_middleware.asyncLocalStorage.getStore().get("requestId") : NaN
+	};
 }
 
 function createResponse(statusCode, json = true) {
-	return function (res, data = {}, json) {
+	return function (res, data = {}) {
 		/*
 			Sends a HTTP Response with a specified status code
 			Should be enclosed in a Try/Catch as res.send()/json() may throw errors if incorrect data is passed
@@ -39,16 +39,17 @@ function createResponse(statusCode, json = true) {
 			Returns:
 				Nothing
 		*/
-		data['metadata'] = {
-			...data['metadata'],
+
+		data["metadata"] = {
+			...data["metadata"],
 			...getMetaData()
-		}
+		};
 
 		if (json === true)
-			res.status(statusCode).json(data)
+			res.status(statusCode).json(data);
 		else
-			res.status(statusCode).send(data)
-	}
+			res.status(statusCode).send(data);
+	};
 }
 
 /*
@@ -57,5 +58,5 @@ function createResponse(statusCode, json = true) {
 module.exports = {
 	OK: createResponse(200),
 	Created: createResponse(201),
-	NoContent: createResponse(204, json=false),
-}
+	NoContent: createResponse(204, false),
+};

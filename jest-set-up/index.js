@@ -1,3 +1,3 @@
-const logger = require('../utils/logger')
+const logger = require("../core/utils/logger");
 
 logger.transports.forEach((t) => (t.silent = true));

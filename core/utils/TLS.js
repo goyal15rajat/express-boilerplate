@@ -18,9 +18,9 @@
         Multer:
             https://theekshanawj.medium.com/nodejs-using-multer-and-cls-hooked-together-a00decbebab6
 */
-const { AsyncLocalStorage } = require('async_hooks')
+const { AsyncLocalStorage } = require("async_hooks");
 
-const state = new AsyncLocalStorage()
+const state = new AsyncLocalStorage();
 
 state.get = (key) => {
     /*
@@ -34,10 +34,10 @@ state.get = (key) => {
             or
             undefined if store does not exist, for conditions where code is not run inside a context
     */
-    let store = state.getStore()
-    if (!store) return undefined
-    return store[key]
-}
+    let store = state.getStore();
+    if (!store) return undefined;
+    return store[key];
+};
 
 state.set = (key, value) => {
     /*
@@ -47,7 +47,7 @@ state.set = (key, value) => {
             key: any key
             value: any value
     */
-    state.getStore()[key] = value
-}
+    state.getStore()[key] = value;
+};
 
-module.exports = state
+module.exports = state;
