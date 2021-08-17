@@ -1,11 +1,11 @@
-const express = require('express')
-const app = express.Router()
+const express = require("express");
+const app = express.Router();
 
-module.exports = app
+module.exports = app;
 
-const testAppUrls = require('../testApp/router')
-app.use('/test_app', testAppUrls)
+const testAppUrls = require("../testApp/router");
+app.use("/test_app", testAppUrls);
 
 
-module.exports = app
+module.exports = app;
 

@@ -1,6 +1,7 @@
 version: "3"
 services:
   innote:
+    container_name: express-boilerplate
     image: '${CI_REGISTRY_ACCOUNT}/${CI_REGISTRY_IMAGE}:${TAG}'
     build:
       context: .
@@ -11,3 +12,6 @@ services:
     environment:
       - ENV=dev
       - ENV_CODE=dev
+      - MONGO_HOST=mongodb
+    ports:
+      - 21600:8000
