@@ -240,6 +240,7 @@ const logApp = (log, extra) => {
         threadName: "",
         error: extra.error,
         service: SETTINGS.SERVICE_NAME,
+        ...extra,
     };
     log.log(data);
 };
