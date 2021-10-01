@@ -49,7 +49,8 @@ function createError(statusCode, name) {
 			message,
 			errors ,
 			title,
-			errorSubCode
+			errorSubCode,
+			requestId
 		}) {
 			super();
 			this.response = {
@@ -64,7 +65,7 @@ function createError(statusCode, name) {
 				metadata: {
 					requestId: request_id_middleware.asyncLocalStorage &&
 					request_id_middleware.asyncLocalStorage.getStore() ?
-					request_id_middleware.asyncLocalStorage.getStore().get("requestId") : NaN
+					request_id_middleware.asyncLocalStorage.getStore().get("requestId") : (NaN || requestId)
 				}
 			};
 
@@ -80,6 +81,7 @@ Object.entries(statusCodes)
 		name = name.replace(/[^a-zA-Z]/g, "");
 		code = Number(code);
 		module.exports[name] = createError(code, name);
+		module.exports[code] = createError(code, name);
 	});
 
 /*

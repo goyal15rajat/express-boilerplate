@@ -86,7 +86,7 @@ async function makeRequest({
                 message: "API_TIMEOUT_ERROR",
                 error: err
             });
-            throw new GatewayTimeout();
+            throw new GatewayTimeout({});
         }
         else if (err.response && err.response.status) {
             const httpError = require("./http-error")[err.response.status];
@@ -95,7 +95,7 @@ async function makeRequest({
                 message: "API_ERROR",
                 error: err
             });
-            throw new httpError();
+            throw new httpError({ requestId });
         }
         else {
             log.logApp({
@@ -109,6 +109,7 @@ async function makeRequest({
 
     return { res, resData, resCode, error };
 }
+
 
 module.exports = {
     makeRequest,
